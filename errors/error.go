@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Based on the post of https://middlemost.com/failure-is-your-domain/
+// Based on the post of `https://middlemost.com/failure-is-your-domain/`
 
 // An Error describes a Go CDK error.
 type Error struct {
@@ -13,17 +13,11 @@ type Error struct {
 	Message string
 	Op      string
 	Err     error
-	Details []string
 }
 
 // New creates and returns a new error
 func New(code ErrorCode, op, message string, err error) *Error {
 	return &Error{Op: op, Code: code, Message: message, Err: err}
-}
-
-// NewD creates and returns a new error with details
-func NewD(code ErrorCode, op, message string, details []string, err error) *Error {
-	return &Error{Op: op, Code: code, Message: message, Err: err, Details: details}
 }
 
 func (e *Error) Error() string {
@@ -39,7 +33,7 @@ func (e *Error) Error() string {
 	if e.Err != nil {
 		buf.WriteString(e.Err.Error())
 	} else {
-		fmt.Fprintf(&buf, "<%s> %s", e.Code, e.Details)
+		fmt.Fprintf(&buf, "<%s>", e.Code)
 		if e.Message != "" {
 			buf.WriteString(" " + e.Message)
 		}
@@ -61,14 +55,14 @@ func ErrorMessage(err error) string {
 	return "An internal error has occurred. Please contact technical support."
 }
 
-// ErrorDetails returns details if available.
-func ErrorDetails(err error) []string {
+// ErrorCode returns the code of the root error, if available. Otherwise returns EINTERNAL.
+func ErrorCode(err error) ErrorCode {
 	if err == nil {
-		return []string{}
+		return Unknown
 	} else if e, ok := err.(*Error); ok {
-		return e.Details
+		return e.Code
 	}
-	return []string{}
+	return Internal
 }
 
 // As return an Error or transform common error to Error.
