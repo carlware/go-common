@@ -55,8 +55,8 @@ func ErrorMessage(err error) string {
 	return "An internal error has occurred. Please contact technical support."
 }
 
-// ErrorCode returns the code of the root error, if available. Otherwise returns EINTERNAL.
-func ErrorCode(err error) ErrorCode {
+// Code returns the code of the root error, if available. Otherwise returns EINTERNAL.
+func Code(err error) ErrorCode {
 	if err == nil {
 		return Unknown
 	} else if e, ok := err.(*Error); ok {
