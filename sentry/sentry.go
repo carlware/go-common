@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"runtime/debug"
 
-	"gitlab.com/bahnlink/go-common/log"
+	"github.com/carlware/go-common/log"
 
 	"github.com/getsentry/raven-go"
 )
@@ -58,4 +58,3 @@ func Setup(dsn, env string, debug bool) {
 	debugMode = debug
 	environment = env
 }
-
