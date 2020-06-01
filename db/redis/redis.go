@@ -84,6 +84,22 @@ func (c *Cache) Delete(key string) error {
 	return nil
 }
 
+func (c *Cache) DeleteByPattern(key string) (int64, error) {
+	op := "redis.Purge"
+	purge := redis.NewScript(purge)
+
+	t, err := purge.Run(c.Client, []string{}, c.namespace + ":" + key).Result()
+	if err != nil {
+		return 0, errors.New(errors.Internal, op, "", err)
+	}
+	switch t := t.(type) {
+	case int64:
+		return t, nil
+	default:
+		return 0, nil
+	}
+}
+
 func (c *Cache) Purge() (int64, error) {
 	op := "redis.Purge"
 	purge := redis.NewScript(purge)
