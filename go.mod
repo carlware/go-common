@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/TheZeroSlave/zapsentry v1.4.0
 	github.com/fatih/structs v1.1.0
+	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.7.0
